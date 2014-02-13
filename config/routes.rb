@@ -1,6 +1,18 @@
 PizzaDelivery::Application.routes.draw do
 
+  get "driver_shifts/index"
   resources :driver_shifts
+
+#  resources :drivers, only: [:new, :create]
+
+  get 'drivers' => 'drivers#index', as: :drivers
+  get 'drivers/:id' => 'drivers#show', as: :driver
+  get 'drivers/new' => 'drivers#new', as: :new_driver
+  post 'drivers' => 'drivers#create'
+  get 'drivers/:id/edit' => 'drivers#edit', as: :edit_driver
+  patch 'drivers/:id' => 'drivers#update'
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

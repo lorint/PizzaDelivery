@@ -1,0 +1,13 @@
+	<%= availabilities.fields_for do |availability_form| %>
+	<fieldset>
+		<%= availability_form.label :day_of_week, "Day of week" %><br />
+		<%#= availability_form.text_field :day_of_week %><br />
+		<%= availability_form.select :day_of_week, (0..6).map {|i| [Date::DAYNAMES[i],i] } %>
+		<%#= collection_select :availabilities, :day_of_week, Shift.all, :id, :day_of_week %>
+		<%= availability_form.label :start_hour, "Start hour" %><br />
+		<%= availability_form.select :start_hour, (11..27).map {|i| [hour_friendly(i),i] } %>
+		<%#= availability_form.text_field :start_hour %><br />
+		<%= availability_form.label :end_hour, "End hour" %><br />
+		<%= availability_form.text_field :end_hour %>
+	</fieldset>
+	<% end %>

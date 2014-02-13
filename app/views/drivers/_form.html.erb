@@ -1,0 +1,24 @@
+<%= form_for @driver do |f| %>
+  <% if @driver.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@driver.errors.count, "error") %> prohibited this driver from being saved:</h2>
+
+      <ul>
+      <% @driver.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+	<%= f.text_field :name %>
+	<%= f.file_field :image %>
+
+	<fieldset>
+		<legend>Select shifts</legend>
+		<%= f.collection_check_boxes :shift_ids, @driver.available_shifts, :id, :to_s	 %>
+	</fieldset>
+
+	<%= f.submit %>
+
+<% end %>

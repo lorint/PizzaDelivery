@@ -3,22 +3,20 @@ Here's all of the shifts we need to list out drivers for:
 <table>
 	<tr>
 		<th>Day of week</th>
-		<th>Start hour</th>
-		<th>End hour</th>
-<!-- 		<th>Available drivers</th>
- -->	</tr>
+		<th>Hours</th>
+		<th>Available drivers</th>
+	</tr>
 <% @shifts.each do |s| %>
 	<tr>
 		<td><%= Date::DAYNAMES[s.day_of_week] %></td>
-		<td><%= hour_friendly(s.start_hour) % 12 %></td>
-		<td><%= hour_friendly(s.end_hour) % 12 %></td>
-<!-- 		<td>
+		<td><%= hour_friendly(s.start_hour) %>-<%= hour_friendly(s.end_hour) %></td>
+ 		<td>
 			<ul>
 				<% s.available_drivers.each do |d| %>
-					<li><%= d.name %></li>
+					<li><%= link_to d.name, edit_driver_path(d) %></li>
 				<% end %>
 			</ul>
 		</td>
- -->	</tr>
+	</tr>
 <% end %>
 </table>
