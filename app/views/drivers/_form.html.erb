@@ -14,6 +14,15 @@
 	<%= f.text_field :name %>
 	<%= f.file_field :image %>
 
+<hr />
+Availability:<br />
+  <%= f.fields_for :availabilities do |builder| %>
+    <%= render 'layouts/availability', f: builder %>
+  <% end %>
+  <div id="newAvail">
+	</div>
+<hr />
+
 	<fieldset>
 		<legend>Select shifts</legend>
 		<%= f.collection_check_boxes :shift_ids, @driver.available_shifts, :id, :to_s	 %>

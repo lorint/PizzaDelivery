@@ -3,6 +3,12 @@ PizzaDelivery::Application.routes.draw do
   get "driver_shifts/index"
   resources :driver_shifts
 
+  resources :shifts do
+    collection do
+      post :update_individual
+    end
+  end
+
 #  resources :drivers, only: [:new, :create]
 
   get 'drivers' => 'drivers#index', as: :drivers
@@ -11,6 +17,9 @@ PizzaDelivery::Application.routes.draw do
   post 'drivers' => 'drivers#create'
   get 'drivers/:id/edit' => 'drivers#edit', as: :edit_driver
   patch 'drivers/:id' => 'drivers#update'
+
+  get 'availabilities' => 'availabilities#index', as: :availabilities
+  get 'availabilities/:id' => 'availabilities#show', as: :availability
 
 
   # The priority is based upon order of creation: first created -> highest priority.

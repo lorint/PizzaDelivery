@@ -15,6 +15,7 @@ class DriversController < ApplicationController
 
 	def edit
 		@driver = Driver.find(params[:id])
+		3.times { @driver.availabilities.build }
 	end
 
 	def update
@@ -27,7 +28,9 @@ private
 
 	def driver_params
 		params.require(:driver).permit(
-			:name, :image
+			:name, :image,
+			shift_ids: [],
+			availabilities_attributes: [:day_of_week, :start_hour, :end_hour, :id]
 		)
 	end
 end

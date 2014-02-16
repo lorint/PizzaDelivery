@@ -1,0 +1,21 @@
+<h2>Shifts</h2>
+<!-- This form presents all the shifts by using a for loop and fields_for on each shift. -->
+<%= form_tag update_individual_shifts_path method: :put do %>
+	<table>
+	<% for shift in @shifts %>
+		<tr>
+		<%= fields_for "shifts[]", shift do |builder| %>
+			<td>
+				<%= render 'layouts/availability', f: builder %>
+			</td>
+			<td>
+				<%= builder.collection_check_boxes :driver_ids, shift.available_drivers, :id, :name	 %>
+			</td>
+
+		<% end %>
+		</tr>
+	<% end %>
+	</table>
+
+	<p><%= submit_tag "Update shifts" %></p>
+<% end %>
