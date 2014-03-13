@@ -1,5 +1,6 @@
 PizzaDelivery::Application.routes.draw do
 
+  root to: "driver_shifts#index"
   get "driver_shifts/index"
   resources :driver_shifts
 

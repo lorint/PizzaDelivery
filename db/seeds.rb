@@ -31,14 +31,18 @@ m.availabilities.create(day_of_week: 5, start_hour: 18, end_hour: 27)
 m.availabilities.create(day_of_week: 6, start_hour: 21, end_hour: 25)
 
 # Now here's the various shifts we need to cover
+#Sunday
+Shift.create(day_of_week: 0, start_hour: 19, end_hour: 24, num_drivers: 2)
+#Monday
+Shift.create(day_of_week: 1, start_hour: 19, end_hour: 24, num_drivers: 2)
 #Tuesday
-Shift.create(day_of_week: 2, start_hour: 19, end_hour: 24)
+Shift.create(day_of_week: 2, start_hour: 19, end_hour: 24, num_drivers: 2)
 #Wednesday
-Shift.create(day_of_week: 3, start_hour: 19, end_hour: 24)
+Shift.create(day_of_week: 3, start_hour: 19, end_hour: 24, num_drivers: 2)
 #Thursday
-Shift.create(day_of_week: 4, start_hour: 20, end_hour: 24)
+Shift.create(day_of_week: 4, start_hour: 18, end_hour: 24, num_drivers: 2)
 #Friday
-Shift.create(day_of_week: 5, start_hour: 18, end_hour: 27)
+Shift.create(day_of_week: 5, start_hour: 18, end_hour: 27, num_drivers: 3)
 #Saturday
-Shift.create(day_of_week: 6, start_hour: 18, end_hour: 27)
+Shift.create(day_of_week: 6, start_hour: 18, end_hour: 27, num_drivers: 3)
 

@@ -11,7 +11,7 @@ class Driver
       end
     end
   end
-
+  
   field :name, type: String
   has_mongoid_attached_file :image,
    :styles => {
@@ -44,6 +44,14 @@ class Driver
     DriverShift.where(driver_id: id).map do |ds|
       ds.shift
     end
+  end
+
+  def scheduled_hours
+    hours = 0
+    self.shifts.each do |s|
+      hours += s.end_hour - s.start_hour
+    end
+    hours
   end
 
   def shift_ids

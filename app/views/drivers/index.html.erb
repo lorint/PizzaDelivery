@@ -1,6 +1,9 @@
 <% @drivers.each do |d| %>
-	Name: <%= link_to d.name, edit_driver_path(d) %><br />
+	Name: <%= link_to d.name, edit_driver_path(d) %> <%= d.scheduled_hours %> hours<br />
 	<% if d.image_file_size %>
 		Image: <%= image_tag d.image.url(:small) %><br />
 	<% end %>
 <% end %>
+
+<%= link_to "Schedule", driver_shifts_path %>
+<%= link_to "Shifts", shifts_path %>

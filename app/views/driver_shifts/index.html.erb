@@ -1,22 +1,73 @@
-Here's all of the shifts we need to list out drivers for:
+<h3>Our schedule</h3>
 
 <table>
 	<tr>
-		<th>Day of week</th>
-		<th>Hours</th>
-		<th>Available drivers</th>
+		<td>&nbsp;</td>
+		<% (0..6).each do |dow| %>
+			<th rowspan="2">
+				<%= Date::DAYNAMES[dow] %>
+			</th>
+		<% end %>
 	</tr>
-<% @shifts.each do |s| %>
-	<tr>
-		<td><%= Date::DAYNAMES[s.day_of_week] %></td>
-		<td><%= hour_friendly(s.start_hour) %>-<%= hour_friendly(s.end_hour) %></td>
- 		<td>
-			<ul>
-				<% s.available_drivers.each do |d| %>
-					<li><%= link_to d.name, edit_driver_path(d) %></li>
+
+	<% # A way to track day by day which shift we're in the middle of rendering
+		rendering_shift_for_day = Array.new(7, nil)
+		# Now cycle through each hour, and each will become a table row
+		Shift.hour_range.each do |h| %>
+		<tr>
+			<td rowspan="2"><%= hour_friendly(h) %></td>
+		</tr>
+		<tr>
+		<% # Go through each day number of the week, which will make cells in the rows
+		if h != Shift.hour_range.last
+			(0..6).each do |dow| %>
+				<% # During each hour slot, find shifts that are on the same day
+				@shifts.each do |s| %>
+					<% if s.day_of_week == dow %>
+						<% # Say we're done rendering on this day if there was a shift that ends in this exact hour
+						rendering_shift_for_day[dow] = nil if rendering_shift_for_day[dow] &&rendering_shift_for_day[dow].end_hour == h %>
+						<% # Not yet rendering a shift on this day?
+						if !rendering_shift_for_day[dow] %>
+							<% # This shift's start hour is now?
+							if s.start_hour == h
+								# Set that we're now rendering a shift for this day
+								rendering_shift_for_day[dow] = s
+								# And render an appropriate TD
+								%>
+								<td class="calUsed" rowspan="<%= (s.end_hour - s.start_hour)*2 %>">
+									<% # Find all drivers on this shift
+									dr = s.drivers
+										if dr.count > 0 %>
+										<b>Drivers:</b>	
+										<% dr.each do |d| %>
+											<br /><%= link_to d.name, edit_driver_path(d) %>
+										<% end %>
+										<br />
+									<% end %>
+
+									<% # Find all available drivers
+									ad = s.available_drivers(true)
+										if ad.count > 0 %>
+										<b>Available drivers:</b>	
+										<% ad.each do |d| %>
+											<br /><%= link_to d.name, edit_driver_path(id: d._id.split("_")[0]) %>
+										<% end %>
+									<% end %>
+								</td>
+							<% else %>
+								<td class="calUnused" rowspan="2">&nbsp;</td>
+							<% end %>
+						<% end %>
+					<% end %>
 				<% end %>
-			</ul>
-		</td>
-	</tr>
-<% end %>
+			<% end %>
+		<% else %>
+			<td rowspan="2" colspan="7" class="calUnused">&nbsp;</td>
+		<% end %>
+		</tr>
+	<% end %>
+	<tr><td>&nbsp;</td></tr>
 </table>
+
+<%= link_to "Shifts", shifts_path %>
+<%= link_to "Drivers", drivers_path %>

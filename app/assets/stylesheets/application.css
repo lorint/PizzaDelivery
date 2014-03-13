@@ -12,4 +12,5 @@
  *= require_tree .
  */
 
-td {border: 1px solid green;}
+td.calUsed {padding:0px; border: 3px solid green;}
+td.calUnused {padding:0px; border-top: 1px solid gray;}

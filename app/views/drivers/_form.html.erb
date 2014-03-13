@@ -31,3 +31,25 @@ Availability:<br />
 	<%= f.submit %>
 
 <% end %>
+
+<script>
+// Find the last <select> with an ID that starts with "driver_availabilities_attributes_"
+
+//var s = document.getElementsByTagName("select");
+var s = $("select");
+var lastDASelect;
+var dANum;
+$.each($("select"), function(){
+  if(this.id.substring(0,33) == "driver_availabilities_attributes_")
+    lastDASelect = this;
+});
+
+if(lastDASelect != null)
+{
+  dANum = lastDASelect.id.substring(33, 999);
+  dANum = dANum.substring(0, dANum.indexOf("_"));
+}
+
+// When someone selects something, if all 3 choices are NULL then do the collapse thing that makes sure only one empty thing is showing.
+
+</script>

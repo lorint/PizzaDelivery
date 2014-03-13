@@ -9,9 +9,8 @@
 				<%= render 'layouts/availability', f: builder %>
 			</td>
 			<td>
-				<%= builder.collection_check_boxes :driver_ids, shift.available_drivers, :id, :name	 %>
+				<%= builder.collection_check_boxes :driver_ids, shift.available_drivers(false), :id, :name	 %>
 			</td>
-
 		<% end %>
 		</tr>
 	<% end %>
@@ -19,3 +18,5 @@
 
 	<p><%= submit_tag "Update shifts" %></p>
 <% end %>
+<%= link_to "Schedule", driver_shifts_path %>
+<%= link_to "Drivers", drivers_path %>
