@@ -4,23 +4,31 @@ PizzaDelivery::Application.routes.draw do
   get "driver_shifts/index"
   resources :driver_shifts
 
+  # This collection route doesn't try to update a single shift, but rather multiple
+  # by calling into the update_individual method in ShiftsController
   resources :shifts do
     collection do
       post :update_individual
     end
   end
 
+
+  resources :errors, only: [:index]
+#  get 'errors' => 'errors#index', as: "errors"
+
+
 #  resources :drivers, only: [:new, :create]
 
   get 'drivers' => 'drivers#index', as: :drivers
-  get 'drivers/:id' => 'drivers#show', as: :driver
   get 'drivers/new' => 'drivers#new', as: :new_driver
+  get 'drivers/:id' => 'drivers#show', as: :driver
   post 'drivers' => 'drivers#create'
   get 'drivers/:id/edit' => 'drivers#edit', as: :edit_driver
   patch 'drivers/:id' => 'drivers#update'
 
   get 'availabilities' => 'availabilities#index', as: :availabilities
   get 'availabilities/:id' => 'availabilities#show', as: :availability
+  delete 'availabilities/:id' => 'availabilities#destroy'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

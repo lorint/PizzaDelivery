@@ -1,9 +1,31 @@
+Here's the happy folks who get out their hoopty and deliver some pies:
+<br />
+<br />
 <% @drivers.each do |d| %>
-	Name: <%= link_to d.name, edit_driver_path(d) %> <%= d.scheduled_hours %> hours<br />
+	<%= link_to d.name, edit_driver_path(d) %> 
+	<% if d.scheduled_hours > 0 %><b><% end %>
+		<%= d.scheduled_hours %> hours<br />
+	<% if d.scheduled_hours > 0 %></b><% end %>
 	<% if d.image_file_size %>
 		Image: <%= image_tag d.image.url(:small) %><br />
 	<% end %>
 <% end %>
 
+<br />
+<br />
 <%= link_to "Schedule", driver_shifts_path %>
 <%= link_to "Shifts", shifts_path %>
+
+<script>
+
+x = [1,3,4];
+Array.prototype.average = function(){
+	tot= 0.0;
+	for(var i=0; i<this.length; ++i)
+		tot += this[i];
+	return tot / this.length;
+}
+
+console.log(x.average());
+
+</script>

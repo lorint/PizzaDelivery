@@ -6,6 +6,7 @@ class DriversController < ApplicationController
 
 	def new
 		@driver = Driver.new
+		1.times { @driver.availabilities.build }
 	end
 
 	def create
@@ -15,10 +16,12 @@ class DriversController < ApplicationController
 
 	def edit
 		@driver = Driver.find(params[:id])
-		3.times { @driver.availabilities.build }
+		1.times { @driver.availabilities.build }
 	end
 
 	def update
+#		raise params.require(:driver).inspect
+#		raise params.require(:driver).permit(:image).inspect
 		d = Driver.find(params[:id])
 		d.update(driver_params)
 		redirect_to drivers_path

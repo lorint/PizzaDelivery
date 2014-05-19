@@ -1,6 +1,11 @@
 class DriverShiftsController < ApplicationController
 	def index
 		# We use an array here to reduce the number of queries presented to the database
-		@shifts = Shift.all.to_a
+		begin
+			@shifts = Shift.all.to_a
+		rescue Exception => ex
+			puts "***** Driver Shift Controller error" + ex.message
+			redirect_to errors_path
+		end
 	end
 end

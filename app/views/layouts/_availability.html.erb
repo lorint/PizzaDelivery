@@ -1,10 +1,16 @@
 <div>
 	<!-- This can display either a Shift or an Availability -->
 	<!-- These three call out to helper methods in application_helper.rb -->
-	<%= f.select :day_of_week, day_array(f.object.new_record?) %>
-	<%= f.select :start_hour, hour_array(f.object.new_record?) %> -
-	<%= f.select :end_hour, hour_array(f.object.new_record?) %>
+	<div class="availabilityEntry">
+		<div class="availabilityDropdowns">
+			<%= f.select :day_of_week, day_array(f.object.new_record?), {}, {class: "dayDropDown"} %>
+			<%= f.select :start_hour, hour_array(f.object.new_record?) %> -
+			<%= f.select :end_hour, hour_array(f.object.new_record?) %>
+		</div>
+		<% if !f.object.new_record? %>
+			<%= link_to "X", availability_path(f.object.id), {method: :delete} %>
+		<% end %>
+	</div>
 	<%#= f.object_name %>
 	<%#= f.index %>
-	<br />
 </div>

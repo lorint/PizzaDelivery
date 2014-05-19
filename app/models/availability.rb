@@ -10,6 +10,13 @@ class Availability
   validates :end_hour, presence: true
   validate :no_overlap?
 
+	# If there are any shifts that were used by this availability, they're also outta here!
+	before_destroy :check_shifts
+	def check_shifts
+		s = self.driver.find_shift(self)
+		s.destroy if s
+	end
+
   # See if there's any other availability that would collide with this one
 	def no_overlap?
 		# Same driver and day, and not this same exact record
@@ -22,5 +29,4 @@ class Availability
 			end_hour: {"$gt" => start_hour})	# Or the end hour?
 		a.count == 0
 	end
-
 end

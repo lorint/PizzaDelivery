@@ -19,8 +19,8 @@ Availability:<br />
   <%= f.fields_for :availabilities do |builder| %>
     <%= render 'layouts/availability', f: builder %>
   <% end %>
-  <div id="newAvail">
-	</div>
+
+  <input type="button" id="btnNewAvail" value="Add Availability" />
 <hr />
 
 	<fieldset>
@@ -33,23 +33,56 @@ Availability:<br />
 <% end %>
 
 <script>
-// Find the last <select> with an ID that starts with "driver_availabilities_attributes_"
+  // Find the last <select> with an ID that starts with "driver_availabilities_attributes_"
 
-//var s = document.getElementsByTagName("select");
-var s = $("select");
-var lastDASelect;
-var dANum;
-$.each($("select"), function(){
-  if(this.id.substring(0,33) == "driver_availabilities_attributes_")
-    lastDASelect = this;
-});
+  //var s = document.getElementsByTagName("select");
+  var s = $("select");
+  var lastDASelect;
+  var dANum;
+  $.each($("select"), function(){
+    if(this.id.substring(0,33) == "driver_availabilities_attributes_")
+      lastDASelect = this;
+  });
 
-if(lastDASelect != null)
-{
-  dANum = lastDASelect.id.substring(33, 999);
-  dANum = dANum.substring(0, dANum.indexOf("_"));
-}
+  if(lastDASelect != null)
+  {
+    dANum = lastDASelect.id.substring(33, 999);
+    dANum = dANum.substring(0, dANum.indexOf("_"));
+  }
 
-// When someone selects something, if all 3 choices are NULL then do the collapse thing that makes sure only one empty thing is showing.
+  // When someone selects something, if all 3 choices are NULL then do the collapse thing that makes sure only one empty thing is showing.
 
+  $(function(){
+    // When the button is clicked, copy the very last one and change out the numbers
+    // This should actually happen when the drop-downs for the previous one are changed up
+    $("#btnNewAvail").click(function(){
+      var lastAvailJQ = $(".edit_driver div").last();
+      var lastAvail = lastAvailJQ[0].outerHTML;
+      var offset = -1
+      // The offset moves along through the string until there aren't any more instances
+      while((offset = lastAvail.indexOf("availabilities_attributes", offset + 1)) >= 0)
+      {
+        // Found a match, go forward until we find the numbers
+        var numStart = 0;
+        for(; offset < lastAvail.length; ++offset)
+          if(lastAvail[offset] >= '0' && lastAvail[offset] <= '9')
+          {
+            numStart = offset;
+            break;
+          }
+        // Now find the end of the numbers
+        for(; offset < lastAvail.length; ++offset)
+          if(lastAvail[offset] < '0' || lastAvail[offset] > '9')
+          {
+            // We've got a number -- let's change it out!
+            theNumber = lastAvail.substring(numStart, offset);
+            theNumber = parseInt(theNumber) + 2;
+            lastAvail = lastAvail.substring(0,numStart) + theNumber +
+             lastAvail.substring(offset,999999);
+            break;
+          }
+      }
+      lastAvailJQ.after(lastAvail);
+    });
+  });
 </script>

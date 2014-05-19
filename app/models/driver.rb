@@ -11,34 +11,37 @@ class Driver
       end
     end
   end
-  
-  field :name, type: String
-  has_mongoid_attached_file :image,
-   :styles => {
-      :thumb => "100x100#",   # Centrally cropped
-      :small  => "150x150>",  # Only squish if it's larger than this
-      :elongate => "20x500"}
 
+  field :name, type: String
+  has_mongoid_attached_file :image
   has_many :driver_shifts
   has_many :availabilities
   accepts_nested_attributes_for :availabilities
 
-
+  # Based on a driver's availability, find the shifts that he or she can work
   def available_shifts
     ret = []
     availabilities.each do |a|
-      Shift.each do |s|
-        if a.start_hour &&
-          a.start_hour <= s.start_hour &&
-          a.end_hour >= s.end_hour &&
-          a.day_of_week == s.day_of_week
-          ret.push s
-          break # In case there are multiple availabilities that would match, we only need to represent it once
-        end
-      end
+      shift = find_shift(a)
+      ret.push shift if shift
     end
     ret
   end
+
+  # Based on a given availability, find any shifts that would match up
+  def find_shift(a)
+    Shift.each do |s|
+      if a.start_hour &&
+        a.start_hour <= s.start_hour &&
+        a.end_hour >= s.end_hour &&
+        a.day_of_week == s.day_of_week
+        return s
+        break # In case there are multiple availabilities that would match, we only need to represent it once
+      end
+    end
+    nil # No match
+  end
+
 
   def shifts
     DriverShift.where(driver_id: id).map do |ds|
@@ -85,6 +88,5 @@ class Driver
     end
   end
 
-	validates_attachment_content_type :image,
-	 :content_type => /\Aimage\/.*\Z/
+	validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 end

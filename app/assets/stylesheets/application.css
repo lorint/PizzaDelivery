@@ -14,3 +14,5 @@
 
 td.calUsed {padding:0px; border: 3px solid green;}
 td.calUnused {padding:0px; border-top: 1px solid gray;}
+.availabilityEntry {display:table;}
+.availabilityDropdowns {display:table-cell;}
